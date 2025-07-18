@@ -32,7 +32,7 @@ Backend para sistema de supermercado desarrollado con NestJS, TypeScript y Postg
 git clone https://github.com/grupo3-backend/
 cd grupo3-backend
 
-## Compilar y ejecutar el proyecto
+2. Compilar y ejecutar el proyecto
 
 ```bash
 # modo desarrollo
@@ -46,7 +46,7 @@ $ npm run start:prod
 
 ```
 
-## Run tests
+3. Run tests
 
 ```bash
 # pruebas unitarias
