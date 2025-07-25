@@ -1,6 +1,6 @@
 # 🛒 Supermercado Backend - NestJS
 
-Backend para sistema de supermercado desarrollado con NestJS, TypeScript y PostgreSQL.
+Backend para sistema de supermercado desarrollado con NestJS, TypeScript y PostgreSQL Universidad Mesoamericana.
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
