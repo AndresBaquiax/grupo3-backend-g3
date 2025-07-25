@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { UsuarioModule } from './usuario/usuario.module';
+import { UsuarioModule as RegisterModule } from './register/register.module';
 import { Usuario } from './usuario/usuario.entity';
+import { RegisterUsuario } from './register/register.entity';
 import { Rol } from './rol/rol.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
@@ -17,12 +20,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_NAME'),
-        entities: [Usuario, Rol],
+        entities: [Usuario, RegisterUsuario, Rol],
         synchronize: false,
       }),
     }),
     AuthModule,
+    UsuarioModule,
+    RegisterModule,
     ConfigModule.forRoot(),
   ],
 })
-export class UsuarioModule {}
+export class AppModule {}
