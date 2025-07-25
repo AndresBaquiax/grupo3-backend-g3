@@ -23,7 +23,15 @@ Backend para sistema de supermercado desarrollado con NestJS, TypeScript y Postg
 - **PostgreSQL** � - Base de datos relacional
 - **TypeORM** 🔄 - ORM para PostgreSQL
 - **JWT** 🔑 - Autenticación
-- **Swagger** 📝 - Documentación API
+- **Swagger** 📝 - Documentación API# 🛒 Supermercado Backend - NestJS
+
+## 📋 Requisitos del sistema
+
+- Node.js **v22.17** o superior
+- PostgreSQL **v17.0**
+- npm
+
+
 
 ## ⚙️ Configuración e instalación
 
