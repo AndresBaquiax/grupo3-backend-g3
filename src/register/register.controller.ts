@@ -12,3 +12,5 @@ export class UsuarioController {
     return this.usuarioService.crearUsuario(dto);
   }
 }
+
+//register.service.ts cambios
