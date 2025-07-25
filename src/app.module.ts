@@ -25,4 +25,4 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     ConfigModule.forRoot(),
   ],
 })
-export class AppModule {}
+export class UsuarioModule {}
