@@ -1,20 +1,18 @@
 import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Usuario } from './register.entity';
+import { RegisterUsuario } from './register.entity';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 
 import * as bcrypt from 'bcrypt';
-
-
 @Injectable()
 export class UsuarioService {
   constructor(
-    @InjectRepository(Usuario)
-    private usuarioRepo: Repository<Usuario>,
+    @InjectRepository(RegisterUsuario)
+    private usuarioRepo: Repository<RegisterUsuario>,
   ) {}
 
-  async crearUsuario(dto: CreateUsuarioDto): Promise<Usuario> {
+  async crearUsuario(dto: CreateUsuarioDto): Promise<RegisterUsuario> {
     const existe = await this.usuarioRepo.findOne({
       where: { correo: dto.correo },
     });
