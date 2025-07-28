@@ -7,6 +7,8 @@ import { Usuario } from './usuario/usuario.entity';
 import { RegisterUsuario } from './register/register.entity';
 import { Rol } from './rol/rol.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ProductosModule } from './productos/productos.module';
+import { Producto } from './productos/productos.entity';
 
 @Module({
   imports: [
@@ -20,7 +22,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_NAME'),
-        entities: [Usuario, RegisterUsuario, Rol],
+        entities: [Usuario, RegisterUsuario, Rol, Producto],
         synchronize: false,
       }),
     }),
@@ -28,6 +30,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     UsuarioModule,
     RegisterModule,
     ConfigModule.forRoot(),
+    ProductosModule,
   ],
 })
 export class AppModule {}

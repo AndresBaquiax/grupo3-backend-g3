@@ -16,6 +16,7 @@ CREATE TABLE producto (
     stock_minimo INTEGER NOT NULL,
     estado BOOLEAN NOT NULL,
     id_categoria INTEGER NOT NULL REFERENCES categoria(id_categoria),
+    url_imagen TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
