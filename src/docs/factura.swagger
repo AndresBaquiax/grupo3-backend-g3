@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  title: Factura API
+  description: Documentación para los endpoints de gestión de facturas
+  version: 1.0.0
+
+paths:
+  /facturas:
+    post:
+      tags:
+        - Factura
+      summary: Crear factura
+      description: Crea una nueva factura con relación a un proveedor existente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFacturaDto'
+      responses:
+        '201':
+          description: Factura creada exitosamente
+        '400':
+          description: Datos inválidos
+
+    get:
+      tags:
+        - Factura
+      summary: Obtener todas las facturas
+      description: Devuelve una lista de todas las facturas
+      responses:
+        '200':
+          description: Lista de facturas
+
+  /facturas/{id}:
+    get:
+      tags:
+        - Factura
+      summary: Obtener factura por ID
+      description: Obtiene una factura específica por su ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Factura encontrada
+        '404':
+          description: Factura no encontrada
+
+    patch:
+      tags:
+        - Factura
+      summary: Actualizar factura
+      description: Actualiza los datos de una factura existente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFacturaDto'
+      responses:
+        '200':
+          description: Factura actualizada
+        '404':
+          description: Factura no encontrada
+
+  /facturas/eliminar/{id}:
+    patch:
+      tags:
+        - Factura
+      summary: Eliminar (lógicamente) una factura
+      description: Marca una factura como inactiva cambiando su estado a false
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Factura desactivada exitosamente
+        '404':
+          description: Factura no encontrada
+
+components:
+  schemas:
+    CreateFacturaDto:
+      type: object
+      required:
+        - tipo
+        - fecha
+        - subtotal
+        - total
+        - estado
+        - id_proveedor
+      properties:
+        tipo:
+          type: string
+          example: COMPRA
+        fecha:
+          type: string
+          format: date
+          example: 2025-07-28
+        subtotal:
+          type: number
+          example: 1000.5
+        total:
+          type: number
+          example: 1100.75
+        descuento:
+          type: number
+          example: 10.00
+        estado:
+          type: boolean
+          example: true
+        id_proveedor:
+          type: integer
+          example: 1
+
+    UpdateFacturaDto:
+      type: object
+      properties:
+        tipo:
+          type: string
+          example: COMPRA
+        fecha:
+          type: string
+          format: date
+          example: 2025-07-28
+        subtotal:
+          type: number
+          example: 950.0
+        total:
+          type: number
+          example: 1050.0
+        descuento:
+          type: number
+          example: 5.00
+        estado:
+          type: boolean
+          example: false
+        id_proveedor:
+          type: integer
+          example: 2

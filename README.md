@@ -75,4 +75,3 @@ Este proyecto fue desarrollado por estudiantes de 8vo semestre de Programación 
 - *David Adolfo de Leon Maldonado* - Desarrollador Full Stack
 
 Universidad Mesoamericana - 8vo Semestre Programación Comercial
-Cambio de prueba para la rama feature/login
