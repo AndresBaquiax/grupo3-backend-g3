@@ -43,9 +43,10 @@ export class LotesService {
     return await this.lotesRepository.save(lote);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number): Promise<{ "estado actual": boolean }> {
     const lote = await this.findOne(id);
-    lote.estado = false;
+    lote.estado = !lote.estado; // Alterna entre true/false
     await this.lotesRepository.save(lote);
+    return { "estado actual": lote.estado };
   }
 }

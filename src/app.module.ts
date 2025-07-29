@@ -11,6 +11,8 @@ import { ProductosModule } from './productos/productos.module';
 import { Producto } from './productos/productos.entity';
 import { LotesModule } from './lotes/lotes.module';
 import { Lotes } from './lotes/lotes.entity';
+import { AsignacionLotesModule } from './asignacion-lotes/asignacion-lotes.module';
+import { AsignacionLotes } from './asignacion-lotes/asignacion-lotes.entity';
 
 @Module({
   imports: [
@@ -24,7 +26,7 @@ import { Lotes } from './lotes/lotes.entity';
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_NAME'),
-        entities: [Usuario, RegisterUsuario, Rol, Producto, Lotes],
+        entities: [Usuario, RegisterUsuario, Rol, Producto, Lotes, AsignacionLotes],
         synchronize: false,
       }),
     }),
@@ -34,6 +36,7 @@ import { Lotes } from './lotes/lotes.entity';
     ConfigModule.forRoot(),
     ProductosModule,
     LotesModule,
+    AsignacionLotesModule,
   ],
 })
 export class AppModule {}

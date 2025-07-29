@@ -156,14 +156,23 @@ export class LotesController {
   }
 
   @ApiOperation({ 
-    summary: 'Eliminar lote', 
-    description: 'Realiza un borrado lógico del lote cambiando su estado a false' 
+    summary: 'Alternar estado de lote', 
+    description: 'Alterna el estado del lote entre true y false' 
   })
   @ApiParam({ name: 'id', description: 'ID del lote', example: 1 })
-  @ApiResponse({ status: 200, description: 'Lote eliminado exitosamente' })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Estado del lote alternado exitosamente',
+    schema: {
+      type: 'object',
+      properties: {
+        'estado actual': { type: 'boolean', example: true }
+      }
+    }
+  })
   @ApiResponse({ status: 404, description: 'Lote no encontrado' })
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+  remove(@Param('id', ParseIntPipe) id: number): Promise<{ "estado actual": boolean }> {
     return this.lotesService.remove(id);
   }
 }

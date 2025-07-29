@@ -150,14 +150,23 @@ export class ProductosController {
   }
 
   @ApiOperation({ 
-    summary: 'Eliminar producto', 
-    description: 'Realiza un borrado lógico del producto cambiando su estado a false' 
+    summary: 'Alternar estado de producto', 
+    description: 'Alterna el estado del producto entre true y false' 
   })
   @ApiParam({ name: 'id', description: 'ID del producto', example: 1 })
-  @ApiResponse({ status: 200, description: 'Producto eliminado exitosamente' })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Estado del producto alternado exitosamente',
+    schema: {
+      type: 'object',
+      properties: {
+        'estado actual': { type: 'boolean', example: true }
+      }
+    }
+  })
   @ApiResponse({ status: 404, description: 'Producto no encontrado' })
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id', ParseIntPipe) id: number): Promise<{ "estado actual": boolean }> {
     return this.productosService.remove(id);
   }
 }

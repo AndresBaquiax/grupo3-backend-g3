@@ -57,6 +57,7 @@ CREATE TABLE asigna_lotes (
     id_asignacion SERIAL PRIMARY KEY,
     id_inventario INTEGER NOT NULL REFERENCES inventario(id_inventario),
     id_lote INTEGER NOT NULL REFERENCES lote(id_lote),
+    estado BOOLEAN NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

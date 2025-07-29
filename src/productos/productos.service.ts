@@ -45,9 +45,10 @@ export class ProductosService {
     return this.findOne(id);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number): Promise<{ "estado actual": boolean }> {
     const producto = await this.findOne(id);
-    producto.estado = false;
+    producto.estado = !producto.estado; // Alterna entre true/false
     await this.productosRepository.save(producto);
+    return { "estado actual": producto.estado };
   }
 }
