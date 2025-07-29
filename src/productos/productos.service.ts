@@ -13,12 +13,17 @@ export class ProductosService {
   ) {}
 
   async create(createProductoDto: CreateProductoDto): Promise<Producto> {
-    const producto = this.productosRepository.create(createProductoDto);
+    const producto = this.productosRepository.create({
+      ...createProductoDto,
+      estado: true
+    });
     return this.productosRepository.save(producto);
   }
 
   async findAll(): Promise<Producto[]> {
-    return this.productosRepository.find();
+    return this.productosRepository.find({
+      where: { estado: true }
+    });
   }
 
   async findOne(id: number): Promise<Producto> {
@@ -33,12 +38,16 @@ export class ProductosService {
 
   async update(id: number, updateProductoDto: UpdateProductoDto): Promise<Producto> {
     await this.findOne(id);
-    await this.productosRepository.update(id, updateProductoDto);
+    await this.productosRepository.update(id, {
+      ...updateProductoDto,
+      estado: true
+    });
     return this.findOne(id);
   }
 
   async remove(id: number): Promise<void> {
     const producto = await this.findOne(id);
-    await this.productosRepository.remove(producto);
+    producto.estado = false;
+    await this.productosRepository.save(producto);
   }
 }

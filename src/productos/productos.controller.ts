@@ -3,7 +3,7 @@ import {
   Get, 
   Post, 
   Body, 
-  Patch, 
+  Put, 
   Param, 
   Delete,
   ParseIntPipe 
@@ -20,7 +20,7 @@ export class ProductosController {
 
   @ApiOperation({ 
     summary: 'Crear producto', 
-    description: 'Crea un nuevo producto en el sistema' 
+    description: 'Crea un nuevo producto en el sistema.' 
   })
   @ApiBody({ type: CreateProductoDto })
   @ApiResponse({ 
@@ -116,7 +116,7 @@ export class ProductosController {
 
   @ApiOperation({ 
     summary: 'Actualizar producto', 
-    description: 'Actualiza un producto existente por su ID' 
+    description: 'Actualiza un producto existente por su ID.' 
   })
   @ApiParam({ name: 'id', description: 'ID del producto', example: 1 })
   @ApiBody({ type: UpdateProductoDto })
@@ -141,7 +141,7 @@ export class ProductosController {
   })
   @ApiResponse({ status: 404, description: 'Producto no encontrado' })
   @ApiResponse({ status: 400, description: 'Datos de entrada inválidos' })
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number, 
     @Body() updateProductoDto: UpdateProductoDto
@@ -151,7 +151,7 @@ export class ProductosController {
 
   @ApiOperation({ 
     summary: 'Eliminar producto', 
-    description: 'Elimina un producto del sistema por su ID' 
+    description: 'Realiza un borrado lógico del producto cambiando su estado a false' 
   })
   @ApiParam({ name: 'id', description: 'ID del producto', example: 1 })
   @ApiResponse({ status: 200, description: 'Producto eliminado exitosamente' })

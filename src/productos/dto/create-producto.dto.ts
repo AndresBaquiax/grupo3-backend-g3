@@ -2,7 +2,6 @@ import {
   IsString,
   IsNotEmpty,
   IsNumber,
-  IsBoolean,
   IsInt,
   Min,
   MaxLength,
@@ -47,15 +46,15 @@ export class CreateProductoDto {
   @IsNotEmpty()
   @IsInt()
   @Min(0)
-  stock_minimo: number;
-
   @ApiProperty({
-    example: true,
-    description: 'Estado activo/inactivo del producto',
+    example: 5,
+    description: 'Stock mínimo requerido del producto',
+    minimum: 0,
   })
   @IsNotEmpty()
-  @IsBoolean()
-  estado: boolean;
+  @IsInt()
+  @Min(0)
+  stock_minimo: number;
 
   @ApiProperty({
     example: 1,

@@ -15,8 +15,8 @@ CREATE TABLE producto (
     precio_unitario NUMERIC(10,2) NOT NULL,
     stock_minimo INTEGER NOT NULL,
     estado BOOLEAN NOT NULL,
-    id_categoria INTEGER NOT NULL REFERENCES categoria(id_categoria),
     url_imagen TEXT NOT NULL,
+    id_categoria INTEGER NOT NULL REFERENCES categoria(id_categoria),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -25,6 +25,7 @@ CREATE TABLE producto (
 CREATE TABLE inventario (
     id_inventario SERIAL PRIMARY KEY,
     cantidad INTEGER NOT NULL,
+    estado BOOLEAN NOT NULL,
     id_producto INTEGER NOT NULL REFERENCES producto(id_producto),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -37,6 +38,25 @@ CREATE TABLE proveedor (
     telefono VARCHAR(20) NOT NULL,
     nit VARCHAR(20) NOT NULL,
     estado BOOLEAN NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabla: Lote
+CREATE TABLE lote (
+    id_lote SERIAL PRIMARY KEY,
+    fecha_vencimiento DATE NOT NULL,
+    cantidad INTEGER NOT NULL,
+    estado BOOLEAN NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabla: AsignaLotes
+CREATE TABLE asigna_lotes (
+    id_asignacion SERIAL PRIMARY KEY,
+    id_inventario INTEGER NOT NULL REFERENCES inventario(id_inventario),
+    id_lote INTEGER NOT NULL REFERENCES lote(id_lote),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -61,27 +81,6 @@ CREATE TABLE detalle_factura (
     cantidad INTEGER NOT NULL,
     precio_unitario NUMERIC(12,2) NOT NULL,
     id_factura INTEGER NOT NULL REFERENCES factura(id_factura),
-    id_inventario INTEGER NOT NULL REFERENCES inventario(id_inventario),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Tabla: Lote
-CREATE TABLE lote (
-    id_lote SERIAL PRIMARY KEY,
-    numero_lote INTEGER NOT NULL,
-    fecha_vencimiento DATE NOT NULL,
-    cantidad INTEGER NOT NULL,
-    estado BOOLEAN NOT NULL,
-    id_detalle INTEGER NOT NULL REFERENCES detalle_factura(id_detalle)
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Tabla: AsignaLotes
-CREATE TABLE asigna_lotes (
-    id_asignacion SERIAL PRIMARY KEY,
-    fecha_asignacion DATE NOT NULL,
     id_inventario INTEGER NOT NULL REFERENCES inventario(id_inventario),
     id_lote INTEGER NOT NULL REFERENCES lote(id_lote),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

@@ -9,6 +9,8 @@ import { Rol } from './rol/rol.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ProductosModule } from './productos/productos.module';
 import { Producto } from './productos/productos.entity';
+import { LotesModule } from './lotes/lotes.module';
+import { Lotes } from './lotes/lotes.entity';
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import { Producto } from './productos/productos.entity';
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_NAME'),
-        entities: [Usuario, RegisterUsuario, Rol, Producto],
+        entities: [Usuario, RegisterUsuario, Rol, Producto, Lotes],
         synchronize: false,
       }),
     }),
@@ -31,6 +33,7 @@ import { Producto } from './productos/productos.entity';
     RegisterModule,
     ConfigModule.forRoot(),
     ProductosModule,
+    LotesModule,
   ],
 })
 export class AppModule {}
