@@ -7,22 +7,30 @@ import { Usuario } from './usuario/usuario.entity';
 import { RegisterUsuario } from './register/register.entity';
 import { Rol } from './rol/rol.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Proveedor } from './proveedor/proveedor.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+import { UsuarioModule } from './usuarios/usuarios.module'; 
+import { RegisterModule } from './register/register.module';
+import { Usuario } from './usuarios/usuarios.entity'; 
+import { Rol } from './rol/rol.entity';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AsignacionLotesProductosModule } from './asignacion-lotes-productos/asignacion-lotes-productos.module';
+import { ProductoModule } from './productos/productos.module'; 
+import { Producto } from './productos/productos.entity';
+import { LotesModule } from './lotes/lotes.module';
+import { Lote } from './lotes/lotes.entity';
+import { AsignacionLotesModule } from './asignacion-lotes/asignacion-lotes.module';
+import { AsignacionLotes } from './asignacion-lotes/asignacion-lotes.entity';
 import { ProveedorModule } from './proveedor/proveedor.module';
+import { Proveedor } from './proveedor/proveedor.entity';
 import { FacturaModule } from './factura/factura.module';
 import { Factura } from './factura/factura.entity';
 import { DetalleFacturaModule } from './detalle_factura/detalle_factura.module';
-import { InventarioModule } from './inventario/inventario.module';
-import { LoteModule } from './lote/lote.module';
-import { ProductoModule } from './producto/producto.module';
-import { CategoriaModule } from './categoria/categoria.module';
 import { DetalleFactura } from './detalle_factura/detalle_factura.entity';
+import { InventarioModule } from './inventario/inventario.module';
 import { Inventario } from './inventario/inventario.entity';
-import { Lote } from './lote/lote.entity';
-import { Producto } from './producto/producto.entity';
+import { CategoriaModule } from './categoria/categoria.module';
 import { Categoria } from './categoria/categoria.entity';
-import { UsuariosModule } from './usuarios/usuarios.module';
-import { Usuarios } from './usuarios/usuarios.entity';
 
 @Module({
   imports: [
@@ -36,7 +44,7 @@ import { Usuarios } from './usuarios/usuarios.entity';
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_NAME'),
-        entities: [Usuario, RegisterUsuario, Rol, Proveedor, Factura, DetalleFactura, Inventario, Lote, Producto, Categoria, Usuarios],
+        entities: [Usuario, RegisterUsuario, Rol, Proveedor, Factura, DetalleFactura, Inventario, Lote, Producto, Categoria, Usuarios, Lotes, AsignacionLotes],
         synchronize: false,
       }),
     }),
@@ -44,6 +52,9 @@ import { Usuarios } from './usuarios/usuarios.entity';
     UsuarioModule,
     RegisterModule,
     ConfigModule.forRoot(),
+    ProductosModule,
+    LotesModule,
+    AsignacionLotesModule,
     ProveedorModule,
     FacturaModule,
     DetalleFacturaModule,
@@ -51,7 +62,10 @@ import { Usuarios } from './usuarios/usuarios.entity';
     LoteModule,
     ProductoModule,
     CategoriaModule,
-    UsuariosModule
+    UsuariosModule,
+    ProductosModule,
+    LotesModule,
+    AsignacionLotesModule
   ],
 })
 export class AppModule {}
