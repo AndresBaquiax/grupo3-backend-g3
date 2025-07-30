@@ -7,15 +7,18 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 import { LotesService } from './lotes.service';
 import { CreateLoteDto } from './dto/create-lote.dto';
 import { UpdateLoteDto } from './dto/update-lote.dto';
 import { Lotes } from './lotes.entity';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
 
 @ApiTags('Lotes')
 @Controller('lotes')
+@UseGuards(JwtAuthGuard)
 export class LotesController {
   constructor(private readonly lotesService: LotesService) {}
 

@@ -7,15 +7,18 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 import { AsignacionLotesService } from './asignacion-lotes.service';
 import { CreateAsignacionLoteDto } from './dto/create-asignacion-lote.dto';
 import { UpdateAsignacionLoteDto } from './dto/update-asignacion-lote.dto';
 import { AsignacionLotes } from './asignacion-lotes.entity';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
 
 @ApiTags('Asignación de Lotes')
 @Controller('asignacion-lotes')
+@UseGuards(JwtAuthGuard)
 export class AsignacionLotesController {
   constructor(private readonly asignacionLotesService: AsignacionLotesService) {}
 

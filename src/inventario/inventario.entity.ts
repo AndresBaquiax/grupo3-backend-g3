@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
   JoinColumn,
 } from 'typeorm';
-import { Producto } from 'src/producto/producto.entity';
+import { Producto } from '../productos/productos.entity';
 
 @Entity('inventario')
 export class Inventario {

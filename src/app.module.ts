@@ -1,39 +1,36 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { UsuarioModule as RegisterModule } from './register/register.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
+import { ProductosModule } from './productos/productos.module';
+import { LotesModule } from './lotes/lotes.module';
+import { AsignacionLotesModule } from './asignacion-lotes/asignacion-lotes.module';
+import { ProveedorModule } from './proveedor/proveedor.module';
+import { FacturaModule } from './factura/factura.module';
+import { DetalleFacturaModule } from './detalle_factura/detalle_factura.module';
+import { InventarioModule } from './inventario/inventario.module';
+import { CategoriaModule } from './categoria/categoria.module';
+
+// Entidades
 import { Usuario } from './usuario/usuario.entity';
 import { RegisterUsuario } from './register/register.entity';
+import { Usuarios } from './usuarios/usuarios.entity';
 import { Rol } from './rol/rol.entity';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
-import { UsuarioModule } from './usuarios/usuarios.module'; 
-import { RegisterModule } from './register/register.module';
-import { Usuario } from './usuarios/usuarios.entity'; 
-import { Rol } from './rol/rol.entity';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AsignacionLotesProductosModule } from './asignacion-lotes-productos/asignacion-lotes-productos.module';
-import { ProductoModule } from './productos/productos.module'; 
 import { Producto } from './productos/productos.entity';
-import { LotesModule } from './lotes/lotes.module';
-import { Lote } from './lotes/lotes.entity';
-import { AsignacionLotesModule } from './asignacion-lotes/asignacion-lotes.module';
+import { Lotes } from './lotes/lotes.entity';
 import { AsignacionLotes } from './asignacion-lotes/asignacion-lotes.entity';
-import { ProveedorModule } from './proveedor/proveedor.module';
 import { Proveedor } from './proveedor/proveedor.entity';
-import { FacturaModule } from './factura/factura.module';
 import { Factura } from './factura/factura.entity';
-import { DetalleFacturaModule } from './detalle_factura/detalle_factura.module';
 import { DetalleFactura } from './detalle_factura/detalle_factura.entity';
-import { InventarioModule } from './inventario/inventario.module';
 import { Inventario } from './inventario/inventario.entity';
-import { CategoriaModule } from './categoria/categoria.module';
 import { Categoria } from './categoria/categoria.entity';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -44,14 +41,27 @@ import { Categoria } from './categoria/categoria.entity';
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_NAME'),
-        entities: [Usuario, RegisterUsuario, Rol, Proveedor, Factura, DetalleFactura, Inventario, Lote, Producto, Categoria, Usuarios, Lotes, AsignacionLotes],
+        entities: [
+          Usuario, 
+          RegisterUsuario, 
+          Usuarios,
+          Rol, 
+          Proveedor, 
+          Factura, 
+          DetalleFactura, 
+          Inventario, 
+          Lotes, 
+          Producto, 
+          Categoria, 
+          AsignacionLotes
+        ],
         synchronize: false,
       }),
     }),
     AuthModule,
     UsuarioModule,
     RegisterModule,
-    ConfigModule.forRoot(),
+    UsuariosModule,
     ProductosModule,
     LotesModule,
     AsignacionLotesModule,
@@ -59,13 +69,7 @@ import { Categoria } from './categoria/categoria.entity';
     FacturaModule,
     DetalleFacturaModule,
     InventarioModule,
-    LoteModule,
-    ProductoModule,
     CategoriaModule,
-    UsuariosModule,
-    ProductosModule,
-    LotesModule,
-    AsignacionLotesModule
   ],
 })
 export class AppModule {}
