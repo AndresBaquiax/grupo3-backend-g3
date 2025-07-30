@@ -1,0 +1,131 @@
+openapi: 3.0.0
+info:
+  title: Proveedor API
+  description: Documentación para los endpoints de gestión de proveedores
+  version: 1.0.0
+
+paths:
+  /proveedores:
+    post:
+      tags:
+        - Proveedor
+      summary: Crear proveedor
+      description: Crea un nuevo proveedor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProveedorDto'
+      responses:
+        '201':
+          description: Proveedor creado exitosamente
+        '400':
+          description: Datos inválidos
+
+    get:
+      tags:
+        - Proveedor
+      summary: Obtener todos los proveedores
+      description: Devuelve una lista de todos los proveedores
+      responses:
+        '200':
+          description: Lista de proveedores
+
+  /proveedores/{id}:
+    get:
+      tags:
+        - Proveedor
+      summary: Obtener proveedor por ID
+      description: Obtiene un proveedor específico por su ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Proveedor encontrado
+        '404':
+          description: Proveedor no encontrado
+
+    patch:
+      tags:
+        - Proveedor
+      summary: Actualizar proveedor
+      description: Actualiza los datos de un proveedor existente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProveedorDto'
+      responses:
+        '200':
+          description: Proveedor actualizado
+        '404':
+          description: Proveedor no encontrado
+
+  /proveedores/eliminar/{id}:
+    patch:
+      tags:
+        - Proveedor
+      summary: Eliminar (lógicamente) un proveedor
+      description: Marca un proveedor como inactivo cambiando su estado a false
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Proveedor desactivado exitosamente
+        '404':
+          description: Proveedor no encontrado
+
+components:
+  schemas:
+    CreateProveedorDto:
+      type: object
+      required:
+        - nombre
+        - telefono
+        - nit
+        - estado
+      properties:
+        nombre:
+          type: string
+          example: Distribuidora XYZ
+        telefono:
+          type: string
+          example: 5555-1234
+        nit:
+          type: string
+          example: 1234567-8
+        estado:
+          type: boolean
+          example: true
+
+    UpdateProveedorDto:
+      type: object
+      properties:
+        nombre:
+          type: string
+          example: Distribuidora ABC
+        telefono:
+          type: string
+          example: 5555-5678
+        nit:
+          type: string
+          example: 8765432-1
+        estado:
+          type: boolean
+          example: false
