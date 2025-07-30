@@ -9,7 +9,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Factura } from 'src/factura/factura.entity';
-import { Lote } from 'src/lote/lote.entity';
+import { Lotes } from 'src/lotes/lotes.entity';
 import { Inventario } from 'src/inventario/inventario.entity';
 
 @Entity('detalle_factura')
@@ -33,9 +33,9 @@ export class DetalleFactura {
   @JoinColumn({ name: 'id_inventario' })
   inventario: Inventario;
 
-  @ManyToOne(() => Lote, (lote) => lote.id_lote, { nullable: false })
+  @ManyToOne(() => Lotes, (lote) => lote.id_lote, { nullable: false })
   @JoinColumn({ name: 'id_lote' })
-  lote: Lote;
+  lote: Lotes;
 
   @CreateDateColumn({ name: 'created_at' })
   created_at: Date;

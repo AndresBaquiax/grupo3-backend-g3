@@ -6,7 +6,7 @@ import { CreateDetalleFacturaDto } from './dto/crear-detalle-factura.dto';
 import { UpdateDetalleFacturaDto } from './dto/actualizar-detalle-factura.dto';
 import { Factura } from 'src/factura/factura.entity';
 import { Inventario } from 'src/inventario/inventario.entity';
-import { Lote } from 'src/lote/lote.entity';
+import { Lotes } from 'src/lotes/lotes.entity';
 
 @Injectable()
 export class DetalleFacturaService {
@@ -17,8 +17,8 @@ export class DetalleFacturaService {
     private readonly facturaRepo: Repository<Factura>,
     @InjectRepository(Inventario)
     private readonly inventarioRepo: Repository<Inventario>,
-    @InjectRepository(Lote)
-    private readonly loteRepo: Repository<Lote>,
+    @InjectRepository(Lotes)
+    private readonly loteRepo: Repository<Lotes>,
   ) {}
 
   async crear(dto: CreateDetalleFacturaDto): Promise<DetalleFactura> {

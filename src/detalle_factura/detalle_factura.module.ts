@@ -6,11 +6,11 @@ import { DetalleFacturaService } from './detalle_factura.service';
 import { DetalleFacturaController } from './detalle_factura.controller';
 import { Factura } from 'src/factura/factura.entity';
 import { Inventario } from 'src/inventario/inventario.entity';
-import { Lote } from 'src/lote/lote.entity';
+import { Lotes } from 'src/lotes/lotes.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([DetalleFactura, Factura, Inventario, Lote]),
+    TypeOrmModule.forFeature([DetalleFactura, Factura, Inventario, Lotes]),
   ],
   controllers: [DetalleFacturaController],
   providers: [DetalleFacturaService],
