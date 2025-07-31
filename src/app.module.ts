@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuarioModule } from './register/register.module';
-import { CategoriaModule } from './categorias/categoria.module';
+import { CategoriasModule } from './categorias/categorias.module';
 import { PedidoModule } from './pedidos/pedido.module';
 import { DireccionModule } from './direcciones/direccion.module';
 
@@ -18,7 +18,7 @@ import { DireccionModule } from './direcciones/direccion.module';
       synchronize: true,
     }),
     UsuarioModule,
-    CategoriaModule,
+    CategoriasModule,
     PedidoModule,
     DireccionModule,
   ],
