@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuarioModule } from './register/register.module';
-import { CategoriaModule } from './categoria/categoria.module';
-import { PedidoModule } from './pedido/pedido.module';
-import { DireccionModule } from './direccion/direccion.module';
+import { CategoriaModule } from './categorias/categoria.module';
+import { PedidoModule } from './pedidos/pedido.module';
+import { DireccionModule } from './direcciones/direccion.module';
 
 @Module({
   imports: [
