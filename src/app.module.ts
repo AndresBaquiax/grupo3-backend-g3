@@ -58,8 +58,10 @@ import { Categoria } from './categoria/categoria.entity';
         synchronize: false,
       }),
     }),
-    AuthModule,
     UsuarioModule,
+    CategoriasModule,
+    PedidoModule,
+    DireccionModule,
     RegisterModule,
     UsuariosModule,
     ProductosModule,
@@ -70,6 +72,7 @@ import { Categoria } from './categoria/categoria.entity';
     DetalleFacturaModule,
     InventarioModule,
     CategoriaModule,
+
   ],
 })
 export class AppModule {}

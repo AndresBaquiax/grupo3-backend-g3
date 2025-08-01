@@ -1,0 +1,6 @@
+# Aplica conversión automática según el tipo de archivo
+* text=auto
+
+# Fuerza LF en archivos TypeScript y JSON
+*.ts    text eol=lf
+*.json  text eol=lf
