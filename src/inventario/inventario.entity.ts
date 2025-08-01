@@ -1,33 +1,44 @@
-// src/inventario/inventario.entity.ts
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
+  OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
   JoinColumn,
 } from 'typeorm';
-import { Producto } from '../productos/productos.entity';
+import { Producto } from 'src/productos/productos.entity';
+import { DetalleFactura } from 'src/detalle_factura/detalle_factura.entity';
+import { AsignacionLotes } from 'src/asignacion-lotes/asignacion-lotes.entity';
 
 @Entity('inventario')
 export class Inventario {
   @PrimaryGeneratedColumn()
   id_inventario: number;
 
-  @Column({ type: 'int' })
+  @Column('int')
   cantidad: number;
 
-  @Column({ type: 'boolean', default: true })
+  @Column()
   estado: boolean;
 
-  @ManyToOne(() => Producto, (producto) => producto.inventarios, { nullable: false })
+  @Column()
+  id_producto: number;
+
+  @ManyToOne(() => Producto, (producto) => producto.inventarios)
   @JoinColumn({ name: 'id_producto' })
   producto: Producto;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @OneToMany(() => DetalleFactura, (detalle) => detalle.inventario)
+  detalles_factura: DetalleFactura[];
+
+  @OneToMany(() => AsignacionLotes, (asignacion) => asignacion.inventario)
+  asignaciones_lote: AsignacionLotes[];
+
+  @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn()
   updated_at: Date;
 }

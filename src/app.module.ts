@@ -53,7 +53,8 @@ import { Categoria } from './categoria/categoria.entity';
           Lotes, 
           Producto, 
           Categoria, 
-          AsignacionLotes
+          AsignacionLotes,
+          Inventario
         ],
         synchronize: false,
       }),
@@ -70,6 +71,7 @@ import { Categoria } from './categoria/categoria.entity';
     DetalleFacturaModule,
     InventarioModule,
     CategoriaModule,
+    Inventario,
   ],
 })
 export class AppModule {}
