@@ -8,7 +8,7 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
-import { Categoria } from 'src/categoria/categoria.entity';
+import { Categoria } from 'src/categorias/categoria.entity';
 import { Inventario } from 'src/inventario/inventario.entity';
 
 @Entity('producto')
