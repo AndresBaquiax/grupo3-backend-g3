@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+
 import { AuthModule } from './auth/auth.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { UsuarioModule as RegisterModule } from './register/register.module';
@@ -12,7 +13,10 @@ import { ProveedorModule } from './proveedor/proveedor.module';
 import { FacturaModule } from './factura/factura.module';
 import { DetalleFacturaModule } from './detalle_factura/detalle_factura.module';
 import { InventarioModule } from './inventario/inventario.module';
-import { CategoriaModule } from './categoria/categoria.module';
+import { CategoriasModule } from './categorias/categorias.module';
+import { PedidoModule } from './pedidos/pedido.module';
+import { DireccionModule } from './direcciones/direccion.module';
+import { ComprasModule } from './compras/compras.module';
 
 // Entidades
 import { Usuario } from './usuario/usuario.entity';
@@ -26,7 +30,7 @@ import { Proveedor } from './proveedor/proveedor.entity';
 import { Factura } from './factura/factura.entity';
 import { DetalleFactura } from './detalle_factura/detalle_factura.entity';
 import { Inventario } from './inventario/inventario.entity';
-import { Categoria } from './categoria/categoria.entity';
+import { Categoria } from './categorias/categoria.entity';
 
 @Module({
   imports: [
@@ -42,17 +46,17 @@ import { Categoria } from './categoria/categoria.entity';
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_NAME'),
         entities: [
-          Usuario, 
-          RegisterUsuario, 
+          Usuario,
+          RegisterUsuario,
           Usuarios,
-          Rol, 
-          Proveedor, 
-          Factura, 
-          DetalleFactura, 
-          Inventario, 
-          Lotes, 
-          Producto, 
-          Categoria, 
+          Rol,
+          Proveedor,
+          Factura,
+          DetalleFactura,
+          Inventario,
+          Lotes,
+          Producto,
+          Categoria,
           AsignacionLotes
         ],
         synchronize: false,
@@ -69,8 +73,8 @@ import { Categoria } from './categoria/categoria.entity';
     FacturaModule,
     DetalleFacturaModule,
     InventarioModule,
-    CategoriaModule,
-
+    ComprasModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

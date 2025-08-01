@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { AsignacionLotes } from 'src/asignacion-lotes/asignacion-lotes.entity';
 
 @Entity('lote')
 export class Lotes {
@@ -13,6 +14,9 @@ export class Lotes {
 
   @Column({ type: 'boolean', nullable: false })
   estado: boolean;
+
+    @OneToMany(() => AsignacionLotes, (asignacion) => asignacion.inventario)
+    asignaciones_lote: AsignacionLotes[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
