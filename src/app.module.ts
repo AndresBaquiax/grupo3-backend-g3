@@ -27,6 +27,7 @@ import { Factura } from './factura/factura.entity';
 import { DetalleFactura } from './detalle_factura/detalle_factura.entity';
 import { Inventario } from './inventario/inventario.entity';
 import { Categoria } from './categoria/categoria.entity';
+import { ComprasModule } from './compras/compras.module';
 
 @Module({
   imports: [
@@ -72,6 +73,7 @@ import { Categoria } from './categoria/categoria.entity';
     InventarioModule,
     CategoriaModule,
     Inventario,
+    ComprasModule,
   ],
 })
 export class AppModule {}
