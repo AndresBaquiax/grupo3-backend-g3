@@ -1,5 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsOptional, IsBoolean } from 'class-validator';
 import { CreateProductoDto } from './create-producto.dto';
 
 export class UpdateProductoDto extends PartialType(CreateProductoDto) {
@@ -34,6 +35,8 @@ export class UpdateProductoDto extends PartialType(CreateProductoDto) {
     example: false,
     description: 'Estado activo/inactivo del producto',
   })
+  @IsOptional()
+  @IsBoolean()
   estado: boolean;
 
   @ApiPropertyOptional({
