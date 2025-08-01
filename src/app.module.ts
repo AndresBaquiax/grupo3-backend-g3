@@ -63,7 +63,7 @@ import { Categoria } from './categorias/categoria.entity';
       }),
     }),
     UsuarioModule,
-    CategoriaModule,
+    CategoriasModule,
     RegisterModule,
     UsuariosModule,
     ProductosModule,
