@@ -20,7 +20,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document); // URL: http://localhost:3000/api
+  SwaggerModule.setup('/', app, document); // URL: http://localhost:3000/
 
   await app.listen(process.env.PORT ?? 3000);
 }
