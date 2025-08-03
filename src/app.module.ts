@@ -31,6 +31,9 @@ import { Factura } from './factura/factura.entity';
 import { DetalleFactura } from './detalle_factura/detalle_factura.entity';
 import { Inventario } from './inventario/inventario.entity';
 import { Categoria } from './categorias/categoria.entity';
+import { VentasModule } from './ventas/ventas.module';
+import { Direccion } from './direcciones/direccion.entity';
+import { Pedido } from './pedidos/pedido.entity';
 
 @Module({
   imports: [
@@ -57,7 +60,9 @@ import { Categoria } from './categorias/categoria.entity';
           Lotes,
           Producto,
           Categoria,
-          AsignacionLotes
+          AsignacionLotes,
+          Direccion,
+          Pedido
         ],
         synchronize: false,
       }),
@@ -75,6 +80,9 @@ import { Categoria } from './categorias/categoria.entity';
     InventarioModule,
     ComprasModule,
     AuthModule,
+    VentasModule,
+    DireccionModule,
+    PedidoModule
   ],
 })
 export class AppModule {}

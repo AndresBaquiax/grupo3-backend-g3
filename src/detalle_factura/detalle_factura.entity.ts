@@ -1,4 +1,3 @@
-// src/detalle-factura/detalle-factura.entity.ts
 import {
   Entity,
   PrimaryGeneratedColumn,

@@ -20,17 +20,17 @@ export class FacturaController {
 
   @Post()
   crear(@Body() dto: CreateFacturaDto) {
-    return this.facturaService.crear(dto);
+    return this.facturaService.crearFactura(dto);
   }
 
   @Get()
   obtenerTodos() {
-    return this.facturaService.obtenerTodos();
+    return this.facturaService.obtenerTodasLasFacturas();
   }
 
   @Get(':id')
   obtenerPorId(@Param('id', ParseIntPipe) id: number) {
-    return this.facturaService.obtenerPorId(id);
+    return this.facturaService.obtenerPorIdFactura(id);
   }
 
   @Patch(':id')
@@ -38,11 +38,11 @@ export class FacturaController {
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateFacturaDto,
   ) {
-    return this.facturaService.actualizar(id, dto);
+    return this.facturaService.actualizarFacturaPorId(id, dto);
   }
 
   @Patch('eliminar/:id')
   eliminarLogico(@Param('id', ParseIntPipe) id: number) {
-    return this.facturaService.eliminarLogico(id);
+    return this.facturaService.eliminarLogicoFacturaPorId(id);
   }
 }
