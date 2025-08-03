@@ -6,6 +6,7 @@ import {
   Min,
   MaxLength,
   IsUrl,
+  IsOptional,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -66,11 +67,12 @@ export class CreateProductoDto {
 
   @ApiProperty({
     example: 'https://ejemplo.com/imagen-laptop.jpg',
-    description: 'URL de la imagen del producto',
+    description: 'URL de la imagen del producto (opcional si se sube archivo)',
     format: 'url',
+    required: false,
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @IsUrl()
-  url_imagen: string;
+  url_imagen?: string;
 }

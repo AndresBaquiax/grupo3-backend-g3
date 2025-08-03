@@ -7,13 +7,19 @@ import {
   Param, 
   Delete,
   ParseIntPipe,
-  UseGuards
+  UseGuards,
+  UseInterceptors,
+  UploadedFile,
+  Req
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiConsumes } from '@nestjs/swagger';
+import { Request } from 'express';
 import { ProductosService } from './productos.service';
 import { CreateProductoDto } from './dto/create-producto.dto';
 import { UpdateProductoDto } from './dto/update-producto.dto';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
+import { multerConfig } from './multer.config';
 
 @ApiTags('Productos')
 @Controller('productos')
@@ -21,11 +27,39 @@ import { JwtAuthGuard } from 'src/auth/jwt.guard';
 export class ProductosController {
   constructor(private readonly productosService: ProductosService) {}
 
+  private buildFullImageUrl(req: Request, url_imagen: string): string {
+    if (!url_imagen) return '';
+    
+    // Si ya es una URL completa (http/https), devolverla tal como está
+    if (url_imagen.startsWith('http://') || url_imagen.startsWith('https://')) {
+      return url_imagen;
+    }
+    
+    // Si es una ruta relativa, construir la URL completa
+    const protocol = req.protocol;
+    const host = req.get('host');
+    return `${protocol}://${host}${url_imagen}`;
+  }
+
   @ApiOperation({ 
     summary: 'Crear producto', 
-    description: 'Crea un nuevo producto en el sistema.' 
+    description: 'Crea un nuevo producto en el sistema. Puede recibir una imagen como archivo o una URL.' 
   })
-  @ApiBody({ type: CreateProductoDto })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        nombre: { type: 'string', example: 'Laptop Gaming' },
+        descripcion: { type: 'string', example: 'Laptop para gaming con tarjeta gráfica dedicada' },
+        precio_unitario: { type: 'number', example: 1500.99 },
+        stock_minimo: { type: 'number', example: 5 },
+        id_categoria: { type: 'number', example: 1 },
+        url_imagen: { type: 'string', example: 'https://ejemplo.com/imagen.jpg' },
+        imagen: { type: 'string', format: 'binary', description: 'Archivo de imagen (opcional)' }
+      }
+    }
+  })
   @ApiResponse({ 
     status: 201, 
     description: 'Producto creado exitosamente',
@@ -39,16 +73,25 @@ export class ProductosController {
         stock_minimo: { type: 'number', example: 5 },
         estado: { type: 'boolean', example: true },
         id_categoria: { type: 'number', example: 1 },
-        url_imagen: { type: 'string', example: 'https://ejemplo.com/imagen.jpg' },
+        url_imagen: { type: 'string', example: '/images/Laptop_Gaming.jpg' },
         created_at: { type: 'string', format: 'date-time', example: '2025-01-27T12:00:00Z' },
         updated_at: { type: 'string', format: 'date-time', example: '2025-01-27T12:00:00Z' }
       }
     }
   })
   @ApiResponse({ status: 400, description: 'Datos de entrada inválidos' })
+  @UseInterceptors(FileInterceptor('imagen', multerConfig))
   @Post()
-  async create(@Body() createProductoDto: CreateProductoDto) {
+  async create(
+    @Body() createProductoDto: CreateProductoDto,
+    @UploadedFile() imagen?: Express.Multer.File
+  ) {
     try {
+      // Si se subió un archivo, usar la ruta del archivo para acceso web
+      if (imagen) {
+        createProductoDto.url_imagen = `/images/${imagen.filename}`;
+      }
+      
       const result = await this.productosService.create(createProductoDto);
       return result;
     } catch (error) {
@@ -75,7 +118,7 @@ export class ProductosController {
           stock_minimo: { type: 'number', example: 5 },
           estado: { type: 'boolean', example: true },
           id_categoria: { type: 'number', example: 1 },
-          url_imagen: { type: 'string', example: 'https://ejemplo.com/imagen.jpg' },
+          url_imagen: { type: 'string', example: 'http://localhost:3000/images/Laptop_Gaming.jpg' },
           created_at: { type: 'string', format: 'date-time' },
           updated_at: { type: 'string', format: 'date-time' }
         }
@@ -83,8 +126,14 @@ export class ProductosController {
     }
   })
   @Get()
-  findAll() {
-    return this.productosService.findAll();
+  async findAll(@Req() req: Request) {
+    const productos = await this.productosService.findAll();
+    
+    // Transformar las URLs de imagen a URLs completas
+    return productos.map(producto => ({
+      ...producto,
+      url_imagen: this.buildFullImageUrl(req, producto.url_imagen)
+    }));
   }
 
   @ApiOperation({ 
@@ -105,7 +154,7 @@ export class ProductosController {
         stock_minimo: { type: 'number', example: 5 },
         estado: { type: 'boolean', example: true },
         id_categoria: { type: 'number', example: 1 },
-        url_imagen: { type: 'string', example: 'https://ejemplo.com/imagen.jpg' },
+        url_imagen: { type: 'string', example: 'http://localhost:3000/images/Laptop_Gaming.jpg' },
         created_at: { type: 'string', format: 'date-time' },
         updated_at: { type: 'string', format: 'date-time' }
       }
@@ -113,16 +162,37 @@ export class ProductosController {
   })
   @ApiResponse({ status: 404, description: 'Producto no encontrado' })
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.productosService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+    const producto = await this.productosService.findOne(id);
+    
+    // Transformar la URL de imagen a URL completa
+    return {
+      ...producto,
+      url_imagen: this.buildFullImageUrl(req, producto.url_imagen)
+    };
   }
 
   @ApiOperation({ 
     summary: 'Actualizar producto', 
-    description: 'Actualiza un producto existente por su ID.' 
+    description: 'Actualiza un producto existente por su ID. Puede recibir una imagen como archivo.' 
   })
   @ApiParam({ name: 'id', description: 'ID del producto', example: 1 })
-  @ApiBody({ type: UpdateProductoDto })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        nombre: { type: 'string', example: 'Laptop Gaming Actualizada' },
+        descripcion: { type: 'string', example: 'Laptop para gaming actualizada' },
+        precio_unitario: { type: 'number', example: 1600.99 },
+        stock_minimo: { type: 'number', example: 3 },
+        estado: { type: 'boolean', example: true },
+        id_categoria: { type: 'number', example: 1 },
+        url_imagen: { type: 'string', example: 'https://ejemplo.com/nueva-imagen.jpg' },
+        imagen: { type: 'string', format: 'binary', description: 'Archivo de imagen (opcional)' }
+      }
+    }
+  })
   @ApiResponse({ 
     status: 200, 
     description: 'Producto actualizado exitosamente',
@@ -144,11 +214,18 @@ export class ProductosController {
   })
   @ApiResponse({ status: 404, description: 'Producto no encontrado' })
   @ApiResponse({ status: 400, description: 'Datos de entrada inválidos' })
+  @UseInterceptors(FileInterceptor('imagen', multerConfig))
   @Put(':id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number, 
-    @Body() updateProductoDto: UpdateProductoDto
+    @Body() updateProductoDto: UpdateProductoDto,
+    @UploadedFile() imagen?: Express.Multer.File
   ) {
+    // Si se subió un archivo, usar la ruta del archivo
+    if (imagen) {
+      updateProductoDto.url_imagen = `/images/${imagen.filename}`;
+    }
+    
     return this.productosService.update(id, updateProductoDto);
   }
 

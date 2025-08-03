@@ -54,3 +54,9 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Excluir todos los archivos dentro de la carpeta img
+img/*
+
+# Asegurarse de no excluir la carpeta img
+!img/
