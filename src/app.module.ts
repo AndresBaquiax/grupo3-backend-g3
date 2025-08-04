@@ -19,6 +19,7 @@ import { CategoriasModule } from './categorias/categorias.module';
 import { PedidoModule } from './pedidos/pedido.module';
 import { DireccionModule } from './direcciones/direccion.module';
 import { ComprasModule } from './compras/compras.module';
+import { StockModule } from './stock/stock.module';
 
 // Entidades
 import { Usuario } from './usuario/usuario.entity';
@@ -88,7 +89,8 @@ import { Pedido } from './pedidos/pedido.entity';
     AuthModule,
     VentasModule,
     DireccionModule,
-    PedidoModule
+    PedidoModule,
+    StockModule,
   ],
 })
 export class AppModule {}
