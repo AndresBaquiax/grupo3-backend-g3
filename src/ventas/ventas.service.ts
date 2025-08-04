@@ -49,14 +49,58 @@ export class VentasService {
       });
       if (!usuario) throw new NotFoundException('Usuario no encontrado');
 
+      const ids = dto.productos.map(p => p.id_inventario);
+
+      const inventarios = await queryRunner.manager.find(Inventario, {
+        where: ids.map(id => ({ id_inventario: id })),
+        relations: ['producto'],
+      });
+
+      const inventariosMap = new Map<number, Inventario>();
+      for (const inventario of inventarios) {
+        inventariosMap.set(inventario.id_inventario, inventario);
+      }
+
+      for (const producto of dto.productos) {
+        const inventario = inventariosMap.get(producto.id_inventario);
+        if (!inventario) {
+          throw new NotFoundException(`Inventario con ID ${producto.id_inventario} no encontrado`);
+        }
+        if (inventario.cantidad < producto.cantidad) {
+          throw new NotFoundException(`No hay suficiente stock de ${inventario.producto?.nombre}`);
+        }
+      }
+
       const facturaEntity = new Factura();
       facturaEntity.tipo = dto.tipo;
       facturaEntity.fecha = new Date(dto.fecha);
-      facturaEntity.subtotal = dto.subtotal.toFixed(2);
-      facturaEntity.total = dto.total.toFixed(2);
-      facturaEntity.descuento = dto.descuento ? dto.descuento.toFixed(2) : null;
       facturaEntity.estado = true;
       facturaEntity.proveedor = null as any;
+
+      let subtotal = 0;
+      let totalDescuento = 0;
+
+      for (const producto of dto.productos) {
+        const precioOriginal = producto.precio_unitario * producto.cantidad;
+        let descuentoProducto = 0;
+
+        if (producto.cantidad >= 20) {
+          descuentoProducto = precioOriginal * 0.1;
+        }
+
+        subtotal += precioOriginal;
+        totalDescuento += descuentoProducto;
+      }
+
+      const total = subtotal - totalDescuento;
+      const costoEnvio = parseFloat((total * 0.05).toFixed(2));
+      const totalFinal = total + costoEnvio;
+
+      facturaEntity.subtotal = parseFloat(subtotal.toFixed(2)).toString();
+      facturaEntity.total = parseFloat(totalFinal.toFixed(2)).toString();
+      facturaEntity.descuento =
+      totalDescuento > 0 ? parseFloat(totalDescuento.toFixed(2)).toString() : null;
+
       await queryRunner.manager.save(Factura, facturaEntity);
 
       const relacion = this.usuariosRepo.create({
@@ -66,15 +110,7 @@ export class VentasService {
       await queryRunner.manager.save(Usuarios, relacion);
 
       for (const producto of dto.productos) {
-        const inventario = await queryRunner.manager.findOne(Inventario, {
-          where: { id_inventario: producto.id_inventario },
-          relations: ['producto'],
-        });
-        if (!inventario)
-          throw new NotFoundException(`Inventario con ID ${producto.id_inventario} no encontrado`);
-
-        if (inventario.cantidad < producto.cantidad)
-          throw new NotFoundException(`No hay suficiente stock de ${inventario.producto?.nombre}`);
+        const inventario = inventariosMap.get(producto.id_inventario)!;
 
         const lotesDisponibles = await this.loteRepo
           .createQueryBuilder('lote')
@@ -94,7 +130,7 @@ export class VentasService {
 
           const detalle = this.detalleRepo.create({
             cantidad: cantidadUsar,
-            precio_unitario: producto.precio_unitario.toFixed(2),
+            precio_unitario: parseFloat(producto.precio_unitario.toFixed(2)),
             factura: facturaEntity,
             inventario,
             lote,
@@ -118,9 +154,9 @@ export class VentasService {
       const pedido = this.pedidoRepo.create({
         fecha_pedido: dto.fecha,
         direccion_envio: this.generarDireccionTexto(direccion),
-        costo_envio: 0,
-        subtotal: dto.subtotal,
-        total: dto.total,
+        costo_envio: costoEnvio,
+        subtotal: subtotal,
+        total: totalFinal,
         estado: true,
         id_usuario: usuario.id_usuario,
         id_factura: facturaEntity.id_factura,

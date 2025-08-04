@@ -106,7 +106,7 @@ export class ComprasService {
 
         const detalle = queryRunner.manager.create(DetalleFactura, {
           cantidad: item.cantidad,
-          precio_unitario: item.precio_unitario.toFixed(2),
+          precio_unitario: parseFloat(item.precio_unitario.toFixed(2)),
           factura: nuevaFactura,
           inventario: inventario,
           lote: lote,

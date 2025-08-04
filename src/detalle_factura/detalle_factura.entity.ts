@@ -20,7 +20,7 @@ export class DetalleFactura {
   cantidad: number;
 
   @Column('numeric', { precision: 12, scale: 2 })
-  precio_unitario: string;
+  precio_unitario: number;
 
   @ManyToOne(() => Factura, (factura) => factura.id_factura, { nullable: false })
   @JoinColumn({ name: 'id_factura' })

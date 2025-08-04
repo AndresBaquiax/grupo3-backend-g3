@@ -39,7 +39,7 @@ export class DetalleFacturaService {
 
     const detalle = this.detalleRepo.create({
       cantidad: dto.cantidad,
-      precio_unitario: dto.precio_unitario.toFixed(2),
+      precio_unitario: parseFloat(dto.precio_unitario.toFixed(2)),
       factura,
       inventario,
       lote,
@@ -93,7 +93,7 @@ export class DetalleFacturaService {
 
     if (dto.cantidad !== undefined) detalle.cantidad = dto.cantidad;
     if (dto.precio_unitario !== undefined)
-      detalle.precio_unitario = dto.precio_unitario.toFixed(2);
+      detalle.precio_unitario = parseFloat(dto.precio_unitario.toFixed(2));
 
     return this.detalleRepo.save(detalle);
   }

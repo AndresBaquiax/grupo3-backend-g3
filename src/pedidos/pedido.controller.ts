@@ -4,6 +4,7 @@ import {
 import { PedidoService } from './pedido.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
+import { FiltroPedidoDto } from './dto/filtro-pedido.dto';
 import {
   ApiTags, ApiOperation, ApiResponse, ApiParam,
 } from '@nestjs/swagger';
@@ -40,6 +41,13 @@ export class PedidoController {
   @ApiResponse({ status: 404, description: 'No se encontró un pedido con ese ID.' })
   findOne(@Param('id') id: string) {
     return this.pedidoService.findOne(+id);
+  }
+
+  @Post('buscar')
+  @ApiOperation({ summary: 'Buscar pedidos por estado, usuario o fechas (por body)' })
+  @ApiResponse({ status: 200, description: 'Lista de pedidos filtrados.' })
+  buscarBody(@Body() filtros: FiltroPedidoDto) {
+    return this.pedidoService.buscarPedidos(filtros);
   }
 
   @Put(':id')
