@@ -29,7 +29,6 @@ export class Factura {
   @Column('numeric', { precision: 5, scale: 2, nullable: true })
   descuento: string | null;
 
-
   @Column({ type: 'boolean', default: true })
   estado: boolean;
 

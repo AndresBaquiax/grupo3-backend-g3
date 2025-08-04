@@ -15,35 +15,35 @@ export class FacturaService {
     private readonly proveedorRepo: Repository<Proveedor>,
   ) {}
 
-  async crear(dto: CreateFacturaDto): Promise<Factura> {
+  async crearFactura(dtoFactura: CreateFacturaDto): Promise<Factura> {
     const proveedor = await this.proveedorRepo.findOne({
-      where: { id_proveedor: dto.id_proveedor },
+      where: { id_proveedor: dtoFactura.id_proveedor },
     });
     if (!proveedor) {
       throw new NotFoundException('Proveedor no encontrado');
     }
 
     const factura = this.facturaRepo.create({
-      tipo: dto.tipo,
-      fecha: dto.fecha as any,
-      subtotal: dto.subtotal.toFixed(2),
-      total: dto.total.toFixed(2),
-      descuento: dto.descuento != null ? dto.descuento.toFixed(2) : null,
-      estado: dto.estado,
+      tipo: dtoFactura.tipo,
+      fecha: dtoFactura.fecha as any,
+      subtotal: dtoFactura.subtotal.toFixed(2),
+      total: dtoFactura.total.toFixed(2),
+      descuento: dtoFactura.descuento != null ? dtoFactura.descuento.toFixed(2) : null,
+      estado: dtoFactura.estado,
       proveedor,
     });
 
     return this.facturaRepo.save(factura);
   }
 
-  async obtenerTodos(): Promise<Factura[]> {
+  async obtenerTodasLasFacturas(): Promise<Factura[]> {
     return this.facturaRepo.find({
       relations: ['proveedor'],
       order: { id_factura: 'DESC' },
     });
   }
 
-  async obtenerPorId(id: number): Promise<Factura> {
+  async obtenerPorIdFactura(id: number): Promise<Factura> {
     const factura = await this.facturaRepo.findOne({
       where: { id_factura: id },
       relations: ['proveedor'],
@@ -54,8 +54,8 @@ export class FacturaService {
     return factura;
   }
 
-  async actualizar(id: number, dto: UpdateFacturaDto): Promise<Factura> {
-    const factura = await this.obtenerPorId(id);
+  async actualizarFacturaPorId(id: number, dto: UpdateFacturaDto): Promise<Factura> {
+    const factura = await this.obtenerPorIdFactura(id);
 
     if (dto.id_proveedor) {
       const proveedor = await this.proveedorRepo.findOne({
@@ -78,8 +78,8 @@ export class FacturaService {
     return this.facturaRepo.save(factura);
   }
 
-  async eliminarLogico(id: number): Promise<Factura> {
-    const factura = await this.obtenerPorId(id);
+  async eliminarLogicoFacturaPorId(id: number): Promise<Factura> {
+    const factura = await this.obtenerPorIdFactura(id);
     factura.estado = false;
     return this.facturaRepo.save(factura);
   }

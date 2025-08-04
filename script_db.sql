@@ -69,9 +69,9 @@ CREATE TABLE factura (
     fecha DATE NOT NULL,
     subtotal NUMERIC(12,2) NOT NULL,
     total NUMERIC(12,2) NOT NULL,
-    descuento NUMERIC(5,2),
+    descuento NUMERIC(12,2),
     estado BOOLEAN NOT NULL,
-    id_proveedor INTEGER NOT NULL REFERENCES proveedor(id_proveedor),
+    id_proveedor INTEGER NULL REFERENCES proveedor(id_proveedor),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

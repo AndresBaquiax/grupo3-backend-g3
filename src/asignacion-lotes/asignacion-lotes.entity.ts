@@ -22,9 +22,6 @@ export class AsignacionLotes {
   @JoinColumn({ name: 'id_inventario' })
   inventario: Inventario;
 
-  @Column()
-  id_lote: number;
-
   @ManyToOne(() => Lotes, (lote) => lote.asignaciones_lote)
   @JoinColumn({ name: 'id_lote' })
   lote: Lotes;
