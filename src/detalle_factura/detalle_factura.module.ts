@@ -1,4 +1,3 @@
-// src/detalle-factura/detalle-factura.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DetalleFactura } from './detalle_factura.entity';

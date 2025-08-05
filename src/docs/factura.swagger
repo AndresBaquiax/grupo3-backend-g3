@@ -10,7 +10,7 @@ paths:
       tags:
         - Factura
       summary: Crear factura
-      description: Crea una nueva factura con relación a un proveedor existente
+      description: Crea una nueva factura en el sistema
       requestBody:
         required: true
         content:
@@ -20,6 +20,10 @@ paths:
       responses:
         '201':
           description: Factura creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Factura'
         '400':
           description: Datos inválidos
 
@@ -27,17 +31,23 @@ paths:
       tags:
         - Factura
       summary: Obtener todas las facturas
-      description: Devuelve una lista de todas las facturas
+      description: Devuelve una lista de todas las facturas registradas
       responses:
         '200':
-          description: Lista de facturas
+          description: Lista de facturas obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Factura'
 
   /facturas/{id}:
     get:
       tags:
         - Factura
       summary: Obtener factura por ID
-      description: Obtiene una factura específica por su ID
+      description: Devuelve una factura específica según el ID proporcionado
       parameters:
         - name: id
           in: path
@@ -47,6 +57,10 @@ paths:
       responses:
         '200':
           description: Factura encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Factura'
         '404':
           description: Factura no encontrada
 
@@ -69,16 +83,20 @@ paths:
               $ref: '#/components/schemas/UpdateFacturaDto'
       responses:
         '200':
-          description: Factura actualizada
+          description: Factura actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Factura'
         '404':
-          description: Factura no encontrada
+          description: Factura o proveedor no encontrado
 
   /facturas/eliminar/{id}:
     patch:
       tags:
         - Factura
       summary: Eliminar (lógicamente) una factura
-      description: Marca una factura como inactiva cambiando su estado a false
+      description: Cambia el estado de la factura a inactivo (`estado: false`)
       parameters:
         - name: id
           in: path
@@ -105,20 +123,23 @@ components:
       properties:
         tipo:
           type: string
-          example: COMPRA
+          example: "Compra"
         fecha:
           type: string
           format: date
-          example: 2025-07-28
+          example: "2025-08-04"
         subtotal:
           type: number
-          example: 1000.5
+          format: float
+          example: 1000.00
         total:
           type: number
-          example: 1100.75
+          format: float
+          example: 950.00
         descuento:
           type: number
-          example: 10.00
+          format: float
+          example: 50.00
         estado:
           type: boolean
           example: true
@@ -131,23 +152,69 @@ components:
       properties:
         tipo:
           type: string
-          example: COMPRA
+          example: "Venta"
         fecha:
           type: string
           format: date
-          example: 2025-07-28
+          example: "2025-08-05"
         subtotal:
           type: number
-          example: 950.0
+          format: float
+          example: 2000.00
         total:
           type: number
-          example: 1050.0
+          format: float
+          example: 1950.00
         descuento:
           type: number
-          example: 5.00
+          format: float
+          example: 50.00
         estado:
           type: boolean
-          example: false
+          example: true
         id_proveedor:
           type: integer
           example: 2
+
+    Factura:
+      type: object
+      properties:
+        id_factura:
+          type: integer
+          example: 1
+        tipo:
+          type: string
+          example: "Compra"
+        fecha:
+          type: string
+          format: date
+          example: "2025-08-04"
+        subtotal:
+          type: string
+          example: "1000.00"
+        total:
+          type: string
+          example: "950.00"
+        descuento:
+          type: string
+          example: "50.00"
+        estado:
+          type: boolean
+          example: true
+        proveedor:
+          type: object
+          properties:
+            id_proveedor:
+              type: integer
+              example: 1
+            nombre:
+              type: string
+              example: "Distribuidora Centroamericana"
+        created_at:
+          type: string
+          format: date-time
+          example: "2025-08-04T12:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2025-08-04T12:30:00Z"
