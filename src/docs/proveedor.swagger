@@ -1,16 +1,16 @@
 openapi: 3.0.0
 info:
-  title: Proveedor API
-  description: Documentación para los endpoints de gestión de proveedores
+  title: API de Proveedores
+  description: Documentación de las rutas para gestionar proveedores
   version: 1.0.0
 
 paths:
   /proveedores:
     post:
       tags:
-        - Proveedor
-      summary: Crear proveedor
-      description: Crea un nuevo proveedor
+        - Proveedores
+      summary: Crear nuevo proveedor
+      description: Crea un nuevo proveedor en el sistema
       requestBody:
         required: true
         content:
@@ -20,24 +20,34 @@ paths:
       responses:
         '201':
           description: Proveedor creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proveedor'
         '400':
           description: Datos inválidos
 
     get:
       tags:
-        - Proveedor
+        - Proveedores
       summary: Obtener todos los proveedores
-      description: Devuelve una lista de todos los proveedores
+      description: Devuelve una lista de todos los proveedores registrados
       responses:
         '200':
-          description: Lista de proveedores
+          description: Lista de proveedores obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Proveedor'
 
   /proveedores/{id}:
     get:
       tags:
-        - Proveedor
+        - Proveedores
       summary: Obtener proveedor por ID
-      description: Obtiene un proveedor específico por su ID
+      description: Devuelve un proveedor específico según el ID proporcionado
       parameters:
         - name: id
           in: path
@@ -47,12 +57,16 @@ paths:
       responses:
         '200':
           description: Proveedor encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proveedor'
         '404':
           description: Proveedor no encontrado
 
     patch:
       tags:
-        - Proveedor
+        - Proveedores
       summary: Actualizar proveedor
       description: Actualiza los datos de un proveedor existente
       parameters:
@@ -69,16 +83,20 @@ paths:
               $ref: '#/components/schemas/UpdateProveedorDto'
       responses:
         '200':
-          description: Proveedor actualizado
+          description: Proveedor actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proveedor'
         '404':
           description: Proveedor no encontrado
 
   /proveedores/eliminar/{id}:
     patch:
       tags:
-        - Proveedor
+        - Proveedores
       summary: Eliminar (lógicamente) un proveedor
-      description: Marca un proveedor como inactivo cambiando su estado a false
+      description: Cambia el estado del proveedor a inactivo (estado: false)
       parameters:
         - name: id
           in: path
@@ -103,13 +121,16 @@ components:
       properties:
         nombre:
           type: string
-          example: Distribuidora XYZ
+          maxLength: 100
+          example: "Proveedor Ejemplo S.A."
         telefono:
           type: string
-          example: 5555-1234
+          maxLength: 20
+          example: "+502 4567-8910"
         nit:
           type: string
-          example: 1234567-8
+          maxLength: 20
+          example: "1234567-8"
         estado:
           type: boolean
           example: true
@@ -119,13 +140,43 @@ components:
       properties:
         nombre:
           type: string
-          example: Distribuidora ABC
+          maxLength: 100
+          example: "Nuevo Nombre Proveedor"
         telefono:
           type: string
-          example: 5555-5678
+          maxLength: 20
+          example: "+502 9999-9999"
         nit:
           type: string
-          example: 8765432-1
+          maxLength: 20
+          example: "8765432-1"
         estado:
           type: boolean
-          example: false
+          example: true
+
+    Proveedor:
+      type: object
+      properties:
+        id_proveedor:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: "Proveedor Ejemplo S.A."
+        telefono:
+          type: string
+          example: "+502 4567-8910"
+        nit:
+          type: string
+          example: "1234567-8"
+        estado:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2025-08-01T12:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2025-08-01T12:30:00Z"
