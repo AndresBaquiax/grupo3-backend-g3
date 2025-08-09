@@ -23,8 +23,8 @@ export class Usuario {
   @Column()
   telefono: string;
 
-  @Column({ nullable: true })
-  direccion: string;
+  @Column({ type: 'text', nullable: true })
+  direccion: string | null;
 
   @Column()
   correo: string;
