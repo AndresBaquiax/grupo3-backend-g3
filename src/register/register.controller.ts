@@ -1,7 +1,7 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { UsuarioService } from './register.service';
-import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import { CreateUsuarioDto2 } from './dto/create-usuario.dto';
 import { RegisterUsuario } from './register.entity';
 
 @ApiTags('User Registration')
@@ -13,7 +13,7 @@ export class UsuarioController {
     summary: 'Registrar nuevo usuario', 
     description: 'Crea un nuevo usuario en el sistema con los datos proporcionados' 
   })
-  @ApiBody({ type: CreateUsuarioDto })
+  @ApiBody({ type: CreateUsuarioDto2 })
   @ApiResponse({ 
     status: 201, 
     description: 'Usuario creado exitosamente',
@@ -66,7 +66,7 @@ export class UsuarioController {
     }
   })
   @Post('registro')
-  crearUsuario(@Body() dto: CreateUsuarioDto): Promise<RegisterUsuario> {
+  crearUsuario(@Body() dto: CreateUsuarioDto2): Promise<RegisterUsuario> {
     return this.usuarioService.crearUsuario(dto);
   }
 }

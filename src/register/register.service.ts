@@ -2,7 +2,7 @@ import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RegisterUsuario } from './register.entity';
-import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import { CreateUsuarioDto2 } from './dto/create-usuario.dto';
 
 import * as bcrypt from 'bcrypt';
 @Injectable()
@@ -12,7 +12,7 @@ export class UsuarioService {
     private usuarioRepo: Repository<RegisterUsuario>,
   ) {}
 
-  async crearUsuario(dto: CreateUsuarioDto): Promise<RegisterUsuario> {
+  async crearUsuario(dto: CreateUsuarioDto2): Promise<RegisterUsuario> {
     const existe = await this.usuarioRepo.findOne({
       where: { correo: dto.correo },
     });

@@ -8,7 +8,7 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateUsuarioDto {
+export class CreateUsuarioDto2 {
   @ApiProperty({
     example: 'Juan Pérez',
     description: 'Nombre completo del usuario',
