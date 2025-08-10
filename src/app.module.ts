@@ -37,6 +37,7 @@ import { Categoria } from './categorias/categoria.entity';
 import { VentasModule } from './ventas/ventas.module';
 import { Direccion } from './direcciones/direccion.entity';
 import { Pedido } from './pedidos/pedido.entity';
+import { RolModule } from './rol/rol.module';
 
 @Module({
   imports: [
@@ -91,6 +92,7 @@ import { Pedido } from './pedidos/pedido.entity';
     DireccionModule,
     PedidoModule,
     StockModule,
+    RolModule 
   ],
 })
 export class AppModule {}
