@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsuariosService } from '../usuario/usuario.service';
+import { DireccionService } from '../direcciones/direccion.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
@@ -7,6 +8,7 @@ import * as bcrypt from 'bcrypt';
 export class AuthService {
   constructor(
     private usuarioService: UsuariosService,
+    private direccionService: DireccionService,
     private jwtService: JwtService,
   ) {}
 
@@ -16,9 +18,13 @@ export class AuthService {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
+    // Obtener la dirección del usuario
+    const direccion = await this.direccionService.findByUsuarioId(usuario.id_usuario);
+
     const payload = {
       sub: usuario.id_usuario,
       rol: usuario.rol.nombre,
+      id_direccion: direccion?.id_direccion || null,
     };
 
     return {

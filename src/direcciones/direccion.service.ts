@@ -25,6 +25,10 @@ export class DireccionService {
     return this.direccionRepo.findOneBy({ id_direccion: id });
   }
 
+  findByUsuarioId(id_usuario: number) {
+    return this.direccionRepo.findOneBy({ id_usuario });
+  }
+
   async update(id: number, dto: UpdateDireccionDto) {
     const direccion = await this.direccionRepo.preload({
       id_direccion: id,
