@@ -20,20 +20,34 @@ export class ProductosService {
     return this.productosRepository.save(producto);
   }
 
-  async findAll(): Promise<Producto[]> {
-    return this.productosRepository.find({
-      where: { estado: true }
+  async findAll(): Promise<any[]> {
+    const productos = await this.productosRepository.find({
+      where: { estado: true },
+      relations: ['categoria']
+    });
+    
+    return productos.map(producto => {
+      const { categoria, ...productoSinCategoria } = producto;
+      return {
+        ...productoSinCategoria,
+        nombre_categoria: categoria?.nombre || null
+      };
     });
   }
 
-  async findOne(id: number): Promise<Producto> {
+  async findOne(id: number): Promise<any> {
     const producto = await this.productosRepository.findOne({
       where: { id_producto: id },
+      relations: ['categoria']
     });
     if (!producto) {
       throw new NotFoundException(`Producto con ID ${id} no encontrado`);
     }
-    return producto;
+    const { categoria, ...productoSinCategoria } = producto;
+    return {
+      ...productoSinCategoria,
+      nombre_categoria: categoria?.nombre || null
+    };
   }
 
   async update(id: number, updateProductoDto: UpdateProductoDto): Promise<Producto> {
