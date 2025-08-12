@@ -38,6 +38,7 @@ import { VentasModule } from './ventas/ventas.module';
 import { Direccion } from './direcciones/direccion.entity';
 import { Pedido } from './pedidos/pedido.entity';
 import { RolModule } from './rol/rol.module';
+import { ReportesModule } from './reportes/reportes.module';
 
 @Module({
   imports: [
@@ -92,7 +93,8 @@ import { RolModule } from './rol/rol.module';
     DireccionModule,
     PedidoModule,
     StockModule,
-    RolModule 
+    RolModule,
+    ReportesModule 
   ],
 })
 export class AppModule {}
