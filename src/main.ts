@@ -6,7 +6,7 @@ async function bootstrap() {
 
   // Configurar CORS
   app.enableCors({
-    origin: 'http://localhost:3039',
+    origin: ['http://localhost:3039', 'https://grupo3-frontend.vercel.app'],
 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
