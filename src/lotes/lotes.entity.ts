@@ -15,8 +15,8 @@ export class Lotes {
   @Column({ type: 'boolean', nullable: false })
   estado: boolean;
 
-    @OneToMany(() => AsignacionLotes, (asignacion) => asignacion.inventario)
-    asignaciones_lote: AsignacionLotes[];
+  @OneToMany(() => AsignacionLotes, (asignacion) => asignacion.lote)
+  asignaciones_lote: AsignacionLotes[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

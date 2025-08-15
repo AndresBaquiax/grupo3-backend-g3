@@ -1,11 +1,11 @@
 import {
   Entity,
   PrimaryGeneratedColumn,
-  Column,
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  Column,
 } from 'typeorm';
 import { Inventario } from 'src/inventario/inventario.entity';
 import { Lotes } from 'src/lotes/lotes.entity';
@@ -15,23 +15,20 @@ export class AsignacionLotes {
   @PrimaryGeneratedColumn()
   id_asignacion: number;
 
-  @Column()
-  id_inventario: number;
-
-  @ManyToOne(() => Inventario, (inventario) => inventario.asignaciones_lote)
-  @JoinColumn({ name: 'id_inventario' })
+  @ManyToOne(() => Inventario, { nullable: false })
+  @JoinColumn({ name: 'id_inventario' }) // <- usa la FK real
   inventario: Inventario;
 
-  @ManyToOne(() => Lotes, (lote) => lote.asignaciones_lote)
-  @JoinColumn({ name: 'id_lote' })
+  @ManyToOne(() => Lotes, { nullable: false })
+  @JoinColumn({ name: 'id_lote' })       // <- usa la FK real
   lote: Lotes;
 
-  @Column()
+  @Column({ type: 'boolean', default: true })
   estado: boolean;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   updated_at: Date;
 }
