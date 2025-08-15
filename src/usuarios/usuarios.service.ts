@@ -75,6 +75,23 @@ export class UsuariosService {
     return this.usuariosRepo.save(relacion);
   }
 
+  async obtenerComprasPorUsuario(idUsuario: number): Promise<Usuarios[]> {
+    // Primero verificar que el usuario existe
+    const usuario = await this.usuarioRepo.findOne({
+      where: { id_usuario: idUsuario },
+    });
+    if (!usuario) throw new NotFoundException('Usuario no encontrado');
+
+    // Obtener todas las relaciones usuario-factura para este usuario
+    return this.usuariosRepo.find({
+      where: { 
+        usuario: { id_usuario: idUsuario } 
+      },
+      relations: ['usuario', 'factura', 'factura.proveedor'],
+      order: { created_at: 'DESC' },
+    });
+  }
+
   async eliminar(id: number): Promise<void> {
     const relacion = await this.obtenerPorId(id);
     await this.usuariosRepo.remove(relacion);

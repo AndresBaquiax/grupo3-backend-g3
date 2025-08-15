@@ -188,6 +188,49 @@ export class UsuariosController {
     return this.service.actualizar(id, dto);
   }
 
+  @Get('usuario/compras/:idUsuario')
+  @ApiOperation({ summary: 'Obtener todas las compras de un usuario' })
+  @ApiParam({ name: 'idUsuario', example: 3, description: 'ID del usuario' })
+  @ApiResponse({
+    status: 200,
+    description: 'Compras del usuario obtenidas exitosamente',
+    schema: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          id: { type: 'number', example: 1 },
+          usuario: {
+            type: 'object',
+            properties: {
+              id_usuario: { type: 'number', example: 3 },
+              nombre: { type: 'string', example: 'Juan Pérez' },
+              email: { type: 'string', example: 'juan@email.com' },
+            },
+          },
+          factura: {
+            type: 'object',
+            properties: {
+              id_factura: { type: 'number', example: 5 },
+              tipo: { type: 'string', example: 'Compra' },
+              fecha: { type: 'string', format: 'date', example: '2025-01-15' },
+              subtotal: { type: 'string', example: '100.00' },
+              total: { type: 'string', example: '112.00' },
+              descuento: { type: 'string', example: '0.00' },
+              estado: { type: 'boolean', example: true },
+            },
+          },
+          created_at: { type: 'string', format: 'date-time' },
+          updated_at: { type: 'string', format: 'date-time' },
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
+  obtenerComprasPorUsuario(@Param('idUsuario', ParseIntPipe) idUsuario: number) {
+    return this.service.obtenerComprasPorUsuario(idUsuario);
+  }
+
   @Delete(':id')
   @ApiOperation({ summary: 'Eliminar relación usuario-factura' })
   @ApiParam({ name: 'id', example: 1, description: 'ID de la relación' })
