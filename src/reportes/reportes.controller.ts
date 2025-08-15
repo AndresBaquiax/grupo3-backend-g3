@@ -2,6 +2,7 @@ import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { ReportesService } from './reportes.service';
+import { ApiOperation } from '@nestjs/swagger';
 
 @ApiTags('Reportes')
 @ApiBearerAuth()
@@ -39,4 +40,10 @@ export class ReportesController {
   usuariosPorRol() {
     return this.svc.usuariosPorRol();
   }
+
+  @Get('stock-bajo')
+  @ApiOperation({ summary: 'Productos con stock por debajo o igual al mínimo' })
+  stockBajo() {
+    return this.svc.stockBajo();
+}
 }
