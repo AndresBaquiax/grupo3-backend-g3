@@ -4,10 +4,7 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
-  JoinColumn,
 } from 'typeorm';
-import { Departamento } from '../departamento/departamento.entity';
 
 @Entity('direccion')
 export class Direccion {
@@ -23,23 +20,14 @@ export class Direccion {
   @Column()
   ciudad: string;
 
-  @Column({ default: true })
+  @Column()
   estado: boolean;
 
   @Column()
   id_usuario: number;
 
-  @Column({ nullable: true })
+  @Column()
   id_departamento: number;
-
-  @ManyToOne(() => Departamento, (departamento) => departamento.direcciones, {
-    nullable: true, 
-    onDelete: 'SET NULL', 
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn({ name: 'id_departamento' })
-  departamento?: Departamento;
-  
 
   @CreateDateColumn()
   created_at: Date;
