@@ -95,21 +95,21 @@ export class ComprasService {
           cantidad: item.cantidad,
           estado: true,
         });
-        await queryRunner.manager.save(Lotes, lote);
+        const loteGuardado = await queryRunner.manager.save(Lotes, lote);
 
         const asignacion = queryRunner.manager.create(AsignacionLotes, {
-          id_inventario: inventario.id_inventario,
-          id_lote: lote.id_lote,
+          inventario,
+          lote: loteGuardado,
           estado: true,
         });
         await queryRunner.manager.save(AsignacionLotes, asignacion);
 
         const detalle = queryRunner.manager.create(DetalleFactura, {
           cantidad: item.cantidad,
-          precio_unitario: parseFloat(item.precio_unitario.toFixed(2)),
+          precio_unitario: Number(item.precio_unitario.toFixed(2)),
           factura: nuevaFactura,
-          inventario: inventario,
-          lote: lote,
+          inventario,
+          lote: loteGuardado,
         });
         await queryRunner.manager.save(DetalleFactura, detalle);
 
