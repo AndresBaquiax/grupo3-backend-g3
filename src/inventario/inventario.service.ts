@@ -70,4 +70,19 @@ export class InventarioService {
     inventario.estado = false;
     return this.inventarioRepo.save(inventario);
   }
+
+  async obtenerCantidadPorProducto(id_producto: number): Promise<{ cantidad: number }> {
+    const inventario = await this.inventarioRepo.findOne({
+      where: { 
+        id_producto: id_producto,
+        estado: true 
+      },
+    });
+    
+    if (!inventario) {
+      throw new NotFoundException('No se encontró inventario para este producto');
+    }
+
+    return { cantidad: inventario.cantidad };
+  }
 }

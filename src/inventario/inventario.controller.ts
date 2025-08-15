@@ -34,6 +34,11 @@ export class InventarioController {
     return this.service.obtenerPorId(id);
   }
 
+  @Get('cantidad/:id_producto')
+  obtenerCantidadPorProducto(@Param('id_producto', ParseIntPipe) id_producto: number) {
+    return this.service.obtenerCantidadPorProducto(id_producto);
+  }
+
   @Patch(':id')
   actualizar(
     @Param('id', ParseIntPipe) id: number,
