@@ -129,6 +129,34 @@ async resumen() {
   };
 }
 
+async stockBajo() {
+  const rows = await this.invRepo.manager.query(
+    `SELECT 
+        pr.id_producto,
+        pr.nombre,
+        COALESCE(pr.stock_minimo, 0)::int AS stock_minimo,
+        i.id_inventario,
+        i.cantidad::int AS cantidad,
+        c.nombre AS categoria
+     FROM inventario i
+     JOIN producto  pr ON pr.id_producto  = i.id_producto
+     LEFT JOIN categoria c ON c.id_categoria = pr.id_categoria
+     WHERE i.estado = true
+       AND COALESCE(pr.stock_minimo, 0) > 0
+       AND i.cantidad <= pr.stock_minimo
+     ORDER BY (pr.stock_minimo - i.cantidad) DESC, pr.nombre ASC`
+  );
+
+  return rows.map((r: any) => ({
+    id_producto: Number(r.id_producto),
+    id_inventario: Number(r.id_inventario),
+    nombre: r.nombre as string,
+    categoria: r.categoria as string | null,
+    cantidad: Number(r.cantidad),
+    stock_minimo: Number(r.stock_minimo),
+  }));
+}
+
 
   async ventasMensuales(year: number) {
     const ventas = await this.pedidoRepo.manager.query(
