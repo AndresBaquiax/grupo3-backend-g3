@@ -20,6 +20,7 @@ import { PedidoModule } from './pedidos/pedido.module';
 import { DireccionModule } from './direcciones/direccion.module';
 import { ComprasModule } from './compras/compras.module';
 import { StockModule } from './stock/stock.module';
+import { DepartamentoModule } from './departamentos/departamento.module';
 
 // Entidades
 import { Usuario } from './usuario/usuario.entity';
@@ -37,6 +38,7 @@ import { Categoria } from './categorias/categoria.entity';
 import { VentasModule } from './ventas/ventas.module';
 import { Direccion } from './direcciones/direccion.entity';
 import { Pedido } from './pedidos/pedido.entity';
+import { Departamento } from './departamentos/departamento.entity';
 import { RolModule } from './rol/rol.module';
 import { ReportesModule } from './reportes/reportes.module';
 
@@ -71,7 +73,8 @@ import { ReportesModule } from './reportes/reportes.module';
           Categoria,
           AsignacionLotes,
           Direccion,
-          Pedido
+          Pedido,
+          Departamento
         ],
         synchronize: false,
       }),
@@ -93,6 +96,7 @@ import { ReportesModule } from './reportes/reportes.module';
     DireccionModule,
     PedidoModule,
     StockModule,
+    DepartamentoModule,
     RolModule,
     ReportesModule 
   ],
