@@ -1,12 +1,16 @@
 import {
-  Controller, Get, Post, Body, Param, Put, Delete,
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
 } from '@nestjs/common';
 import { DireccionService } from './direccion.service';
 import { CreateDireccionDto } from './dto/create-direccion.dto';
 import { UpdateDireccionDto } from './dto/update-direccion.dto';
-import {
-  ApiTags, ApiOperation, ApiResponse, ApiParam,
-} from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 
 @ApiTags('Direcciones')
 @Controller('direcciones')
@@ -15,7 +19,10 @@ export class DireccionController {
 
   @Post()
   @ApiOperation({ summary: 'Registrar una nueva dirección del usuario' })
-  @ApiResponse({ status: 201, description: 'Dirección registrada exitosamente.' })
+  @ApiResponse({
+    status: 201,
+    description: 'Dirección registrada exitosamente.',
+  })
   @ApiResponse({ status: 400, description: 'Datos inválidos en la solicitud.' })
   create(@Body() dto: CreateDireccionDto) {
     return this.direccionService.create(dto);
@@ -23,7 +30,10 @@ export class DireccionController {
 
   @Get()
   @ApiOperation({ summary: 'Listar todas las direcciones registradas' })
-  @ApiResponse({ status: 200, description: 'Listado de direcciones obtenido correctamente.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Listado de direcciones obtenido correctamente.',
+  })
   findAll() {
     return this.direccionService.findAll();
   }
@@ -37,7 +47,10 @@ export class DireccionController {
     required: true,
   })
   @ApiResponse({ status: 200, description: 'Dirección encontrada.' })
-  @ApiResponse({ status: 404, description: 'No se encontró una dirección con ese ID.' })
+  @ApiResponse({
+    status: 404,
+    description: 'No se encontró una dirección con ese ID.',
+  })
   findOne(@Param('id') id: string) {
     return this.direccionService.findOne(+id);
   }
@@ -50,8 +63,14 @@ export class DireccionController {
     description: 'ID de la dirección a modificar',
     required: true,
   })
-  @ApiResponse({ status: 200, description: 'Dirección actualizada correctamente.' })
-  @ApiResponse({ status: 404, description: 'No se puede actualizar, dirección no encontrada.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Dirección actualizada correctamente.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'No se puede actualizar, dirección no encontrada.',
+  })
   update(@Param('id') id: string, @Body() dto: UpdateDireccionDto) {
     return this.direccionService.update(+id, dto);
   }
@@ -64,8 +83,14 @@ export class DireccionController {
     description: 'ID de la dirección que se desea eliminar',
     required: true,
   })
-  @ApiResponse({ status: 200, description: 'Dirección eliminada exitosamente.' })
-  @ApiResponse({ status: 404, description: 'No se puede eliminar, dirección no encontrada.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Dirección eliminada exitosamente.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'No se puede eliminar, dirección no encontrada.',
+  })
   remove(@Param('id') id: string) {
     return this.direccionService.remove(+id);
   }
