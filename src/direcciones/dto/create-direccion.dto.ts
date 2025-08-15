@@ -1,53 +1,21 @@
-// create-direccion.dto.ts
-import { IsString, IsNumber, IsOptional, IsBoolean, IsNotEmpty } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateDireccionDto {
-  @ApiProperty({
-    description: 'Nombre de la calle de la dirección',
-    example: 'Av. Principal 123',
-  })
-  @IsString()
-  @IsNotEmpty()
+  @ApiProperty({ example: '3a Calle' })
   calle: string;
 
-  @ApiProperty({
-    description: 'Nombre de la colonia o barrio',
-    example: 'Centro Histórico',
-  })
-  @IsString()
-  @IsNotEmpty()
+  @ApiProperty({ example: 'Colonia Primavera' })
   colonia: string;
 
-  @ApiProperty({
-    description: 'Nombre de la ciudad',
-    example: 'Guatemala City',
-  })
-  @IsString()
-  @IsNotEmpty()
+  @ApiProperty({ example: 'Guatemala' })
   ciudad: string;
 
-  @ApiProperty({
-    description: 'ID del usuario al que pertenece la dirección',
-    example: 1,
-  })
-  @IsNumber()
+  @ApiProperty({ example: true })
+  estado: boolean;
+
+  @ApiProperty({ example: 1 })
   id_usuario: number;
 
-  @ApiPropertyOptional({
-    description: 'ID del departamento (opcional)',
-    example: 1,
-  })
-  @IsOptional()
-  @IsNumber()
-  id_departamento?: number;
-
-  @ApiPropertyOptional({
-    description: 'Estado de la dirección (activo/inactivo)',
-    example: true,
-    default: true,
-  })
-  @IsOptional()
-  @IsBoolean()
-  estado?: boolean = true;
+  @ApiProperty({ example: 2 })
+  id_departamento: number;
 }
